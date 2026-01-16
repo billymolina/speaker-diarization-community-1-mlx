@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "speaker-diarization-community-1-mlx"
+version = "0.1.0"
+description = "MLX implementation of pyannote speaker diarization community 1 model"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "MLX Community", email = ""}]
+requires-python = ">=3.8"
+dependencies = [
+    "mlx>=0.0.9",
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "torchaudio>=0.10.0",
+    "librosa>=0.9.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=3.0",
+    "black>=22.0",
+    "pylint>=2.12",
+    "mypy>=0.950",
+]
+
+[tool.setuptools]
+packages = ["speaker_diarization_mlx"]
+
+[tool.black]
+line-length = 88
+target-version = ["py38"]
+
+[tool.mypy]
+ignore_missing_imports = true
