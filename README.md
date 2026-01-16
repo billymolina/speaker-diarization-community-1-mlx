@@ -6,6 +6,29 @@ An MLX implementation of the pyannote/segmentation-3.0 model, optimized for Appl
 
 This project ports the [pyannote/segmentation-3.0](https://huggingface.co/pyannote/segmentation-3.0) model to MLX (Apple's machine learning framework), enabling efficient speaker diarization on Apple Silicon devices (M1/M2/M3/M4).
 
+## Repository Structure
+
+```
+speaker-diarization-community-1-mlx/
+├── src/                    # Main package code
+│   ├── models.py          # MLX model implementations
+│   ├── pipeline.py        # Speaker diarization pipeline
+│   └── ...
+├── scripts/               # Utility scripts
+│   ├── convert_pyannote.py
+│   └── upload_to_hf.py
+├── analysis/              # Analysis and validation scripts
+│   ├── compare_*.py
+│   ├── debug_*.py
+│   └── test_*.py
+├── experiments/           # Experimental scripts
+├── examples/              # Usage examples
+├── tests/                 # Unit tests
+├── models/                # Model weights and configs
+├── docs/                  # Documentation
+└── diarize.py            # Main CLI script
+```
+
 ## Features
 
 - **Apple Silicon Optimized**: Leverages MLX for efficient computation on Apple Neural Engine
@@ -36,7 +59,7 @@ The segmentation model consists of:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/speaker-diarization-community-1-mlx.git
+git clone https://github.com/billymolina/speaker-diarization-community-1-mlx.git
 cd speaker-diarization-community-1-mlx
 
 # Create virtual environment
@@ -46,6 +69,19 @@ source .venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 ```
+
+## Directory Guide
+
+| Directory | Purpose |
+|-----------|---------|
+| [`src/`](src/) | Main package code (models, pipeline, utilities) |
+| [`scripts/`](scripts/) | Utility scripts (conversion, deployment) |
+| [`analysis/`](analysis/) | Analysis and validation scripts |
+| [`experiments/`](experiments/) | Experimental and research code |
+| [`examples/`](examples/) | Usage examples and tutorials |
+| [`tests/`](tests/) | Unit tests |
+| [`models/`](models/) | Model weights and configurations |
+| [`docs/`](docs/) | Documentation and analysis reports |
 
 ## Quick Start
 
@@ -85,6 +121,10 @@ probs = mx.softmax(logits, axis=-1)
 # Get predicted speaker per frame
 predictions = mx.argmax(probs, axis=-1)
 ```
+
+### Complete Pipeline Example
+
+See [`examples/complete_example.py`](examples/complete_example.py) for a full pipeline example.
 ```
 
 ## Model Conversion
@@ -94,7 +134,7 @@ The pyannote/segmentation-3.0 model has been pre-converted and is included in `m
 To convert other pyannote models:
 
 ```bash
-python convert_pyannote.py --repo-id pyannote/segmentation-3.0 --output models/custom_mlx
+python scripts/convert_pyannote.py --repo-id pyannote/segmentation-3.0 --output models/custom_mlx
 ```
 
 ## Testing

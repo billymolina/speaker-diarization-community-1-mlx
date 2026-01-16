@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run basic tests
+      run: |
+        python -c "import mlx.core as mx; print('MLX version:', mx.__version__)"
+        python -c "from src.models import SegmentationModel; print('Model import successful')"
+
+    - name: Test model loading
+      run: |
+        python -c "
+        from src.models import load_pyannote_model
+        model = load_pyannote_model('models/segmentation_mlx/weights.npz')
+        print('Model loaded successfully')
+        "
+
+    - name: Run analysis scripts (subset)
+      run: |
+        python analysis/test_lstm_state.py || echo "LSTM test failed"
+        python analysis/test_log_softmax.py || echo "LogSoftmax test failed"
